@@ -1,62 +1,162 @@
-import Link from "next/link";
+:root {
+  --bg: #15100c;
+  --bg-2: #1f1812;
+  --panel: #2a2119;
+  --ink: #0d0a07;
+  --parchment: #ece0c4;
+  --muted: #a39479;
+  --amber: #d9a441;
+  --rule: rgba(217, 164, 65, 0.4);
+  --sage: #3a3a2c;
+}
 
-const ROOMS = [
-  { id: "unsent-desk", name: "The Unsent Desk", blurb: "Poems, journal pieces, fragments, and drafts. Some were meant to be left unfinished." },
-  { id: "gallery-half-light", name: "The Gallery of Half-Light", blurb: "Paintings, sketches, fails, and photographs when they arrive." },
-  { id: "specimen-drawer", name: "The Specimen Drawer", blurb: "Scientific notes, facts, and small explanations. Immunology and cancer research lead." },
-  { id: "morning-ledger", name: "The Morning Ledger", blurb: "One short entry a day on being alive." },
-  { id: "quiet-hands", name: "The Room of Quiet Hands", blurb: "Hands, words, and signs. Content coming.", comingSoon: true },
-  { id: "unlit-landing", name: "The Unlit Landing", blurb: "Questions about God, meaning, and existence. I don't know yet." },
-  { id: "shelf-of-quarrels", name: "The Shelf of Quarrels", blurb: "A few writers, one quote, one disagreement, and what the book did to me." },
-  { id: "projection-room", name: "The Projection Room", blurb: "Films by their essence. A scene, a line in spirit, and what I think they get wrong." },
-  { id: "antenna-room", name: "The Antenna Room", blurb: "Notes from talks and conversations. What I take from them, and where I push back." },
-  { id: "resonance-chamber", name: "The Resonance Chamber", blurb: "Music by mood, voice, and memory. A few songs to live with." },
-];
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
-export default function Home() {
-  return (
-    <main>
-      <section className="hero">
-        <h1>The Errant Archive</h1>
-        <p className="intro">A collection of wanderings, questions, studies, paintings, fragments, and other unfinished attempts at understanding this strange life.</p>
-        <p className="tagline">Pull up a chair. Nothing here is finished.</p>
-      </section>
+body {
+  font-family: "Courier Prime", "Courier New", monospace;
+  background:
+    radial-gradient(ellipse at 85% 0%, rgba(217, 164, 65, 0.08), transparent 55%),
+    var(--bg);
+  color: var(--parchment);
+  line-height: 1.6;
+  min-height: 100vh;
+}
 
-      <section id="rooms" className="rooms">
-        <h2>The Rooms</h2>
-        <p className="sub">Open the doors you relate to.</p>
-        <div className="room-grid">
-          {ROOMS.map((room) => (
-            <Link key={room.id} href={`/rooms/${room.id}`} className="room-card">
-              <h3>{room.name}</h3>
-              <p>{room.blurb}</p>
-              {room.comingSoon && <span className="tag dashed-tag">coming</span>}
-            </Link>
-          ))}
-        </div>
-      </section>
+a { color: var(--parchment); text-decoration: none; }
+a:hover { color: var(--amber); }
 
-      <section className="special">
-        <article className="card dashed">
-          <h3>The Long Table</h3>
-          <p>Not open yet.</p>
-        </article>
-        <article className="card dashed">
-          <h3>The Keeper&apos;s Door</h3>
-          <p>Protected approval page. Deferred.</p>
-        </article>
-      </section>
+/* Top bar */
+.topbar {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 1.1rem 2.5rem;
+  border-bottom: 1px solid rgba(217, 164, 65, 0.25);
+  position: sticky; top: 0; z-index: 20;
+  background: rgba(10, 8, 6, 0.92);
+}
+.brand { font-size: 1.15rem; letter-spacing: 0.02em; }
+.topbar nav { display: flex; align-items: center; gap: 2rem; font-size: 0.95rem; }
+.topbar nav a.active { border-bottom: 1px solid var(--parchment); padding-bottom: 2px; }
+.moon { color: var(--parchment); font-size: 1.2rem; }
 
-      <section id="house-rules" className="rules">
-        <h2>House Rules</h2>
-        <ol>
-          <li>Read slowly, and leave what you feel.</li>
-          <li>Reactions are free and anonymous.</li>
-          <li>Guestbook notes should be kind and honest.</li>
-          <li>Please credit the keeper if you share a work.</li>
-          <li>Nothing here is finished, so be patient with the drafts.</li>
-        </ol>
-      </section>
-    </main>
-  );
+/* Hero */
+.hero {
+  position: relative;
+  min-height: 470px;
+  display: flex; align-items: center;
+  padding: 3rem 2.5rem;
+  background:
+    linear-gradient(90deg, rgba(12, 9, 6, 0.96) 0%, rgba(12, 9, 6, 0.75) 38%, rgba(12, 9, 6, 0.2) 70%, rgba(12, 9, 6, 0.6) 100%),
+    url("/images/hero.jpg") center / cover no-repeat,
+    radial-gradient(ellipse at 60% 40%, #3a2a1a, #15100c 70%);
+  border-bottom: 1px solid rgba(217, 164, 65, 0.15);
+}
+.hero-text { max-width: 520px; }
+.hero h1 {
+  font-weight: 400;
+  font-size: clamp(2.6rem, 5vw, 3.8rem);
+  line-height: 1.1;
+}
+.hero h1::after {
+  content: ""; display: block; width: 230px; height: 3px; margin-top: 0.7rem;
+  background: var(--amber); opacity: 0.6; transform: rotate(-1deg);
+}
+.intro { margin-top: 1.6rem; color: var(--parchment); opacity: 0.9; }
+.tagline {
+  display: inline-block; margin-top: 1.6rem; padding: 0.7rem 1.1rem;
+  background: var(--parchment); color: var(--ink);
+  font-style: italic; transform: rotate(-0.8deg);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+/* Key to the Archive */
+.key {
+  position: absolute; top: 2.5rem; right: 2.5rem; width: 260px;
+  padding: 1.4rem 1.5rem;
+  background: rgba(15, 11, 8, 0.82);
+  border: 1px solid rgba(217, 164, 65, 0.3);
+}
+.key h2 { font-weight: 400; font-size: 1.05rem; margin-bottom: 1.1rem; }
+.key-row { display: flex; gap: 0.8rem; align-items: center; margin-bottom: 0.9rem; font-size: 0.88rem; color: var(--muted); }
+.key-row strong { font-weight: 400; color: var(--parchment); }
+.key-strike { text-decoration: line-through; color: var(--parchment); min-width: 60px; }
+.key-chip {
+  min-width: 60px; padding: 0.1rem 0.45rem; background: #c9b48e; color: var(--ink); font-size: 0.8rem; text-align: center;
+}
+.key-frame {
+  min-width: 60px; height: 22px; border: 1px dashed var(--parchment); flex-shrink: 0;
+}
+
+/* Rooms */
+.rooms { padding: 3.5rem 2.5rem 2rem; text-align: center; }
+.section-title {
+  display: flex; align-items: center; justify-content: center; gap: 1rem;
+  font-weight: 400; font-size: 2rem;
+}
+.section-title::before, .section-title::after {
+  content: ""; width: 80px; height: 1px; background: var(--rule);
+}
+.sub { color: var(--muted); font-style: italic; margin-top: 0.4rem; }
+
+.room-grid {
+  display: grid; gap: 1.1rem; max-width: 1320px; margin: 2.5rem auto 0;
+  grid-template-columns: repeat(5, 1fr);
+}
+.room-card {
+  position: relative; display: block; text-align: left;
+  padding: 1.3rem 1.2rem 1.1rem; min-height: 190px;
+  background: linear-gradient(180deg, rgba(42, 33, 25, 0.5), rgba(31, 24, 18, 0.9));
+  border: 1px dashed var(--rule);
+  transition: border-color 0.4s, background 0.4s;
+}
+.room-card:hover { border-color: var(--amber); background: var(--panel); }
+.room-card h3 { font-weight: 400; font-size: 1.05rem; line-height: 1.3; margin-bottom: 0.7rem; }
+.room-card p { color: var(--muted); font-size: 0.85rem; line-height: 1.5; }
+.room-card .arrow { position: absolute; right: 1rem; bottom: 0.8rem; color: var(--muted); }
+
+.tag {
+  display: inline-block; margin-top: 0.7rem; padding: 0.1rem 0.5rem;
+  font-size: 0.78rem; background: #c9b48e; color: var(--ink);
+}
+.tag.outline { background: none; color: var(--muted); border: 1px dashed var(--muted); }
+
+/* Special spaces */
+.special {
+  display: grid; gap: 1.1rem; max-width: 1320px; margin: 1.1rem auto 3rem;
+  padding: 0 0; grid-template-columns: 1fr 1fr 1fr;
+}
+.card {
+  position: relative; display: block; padding: 1.4rem 1.4rem 1.2rem; min-height: 120px;
+  background: linear-gradient(180deg, rgba(42, 33, 25, 0.5), rgba(31, 24, 18, 0.9));
+  border: 1px dashed var(--rule);
+}
+.card h3 { font-weight: 400; font-size: 1.1rem; margin-bottom: 0.5rem; }
+.card p { color: var(--muted); font-size: 0.88rem; }
+.card .arrow { position: absolute; right: 1rem; bottom: 0.8rem; color: var(--muted); }
+.card.sage { background: var(--sage); border-style: solid; border-color: rgba(217, 164, 65, 0.2); }
+.card.sage:hover { border-color: var(--amber); }
+
+/* House rules */
+.rules { max-width: 700px; margin: 0 auto; padding: 2.5rem 2.5rem 3.5rem; }
+.rules h2 { font-weight: 400; font-size: 1.8rem; text-align: center; }
+.rules ol { margin-top: 1.2rem; padding-left: 1.4rem; }
+.rules li { margin-bottom: 0.6rem; }
+
+.footer {
+  text-align: center; padding: 1.8rem; color: var(--muted); font-size: 0.9rem;
+  border-top: 1px solid var(--rule);
+}
+
+/* Responsive */
+@media (max-width: 1100px) {
+  .room-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 820px) {
+  .room-grid { grid-template-columns: repeat(2, 1fr); }
+  .special { grid-template-columns: 1fr; }
+  .key { position: static; width: auto; margin-top: 2rem; }
+  .hero { flex-direction: column; align-items: flex-start; }
+  .topbar { flex-direction: column; gap: 0.8rem; padding: 1rem; }
+}
+@media (max-width: 520px) {
+  .room-grid { grid-template-columns: 1fr; }
 }
