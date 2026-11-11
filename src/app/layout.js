@@ -1,36 +1,29 @@
 import "./globals.css";
+import Link from "next/link";
 
 export const metadata = {
   title: "The Errant Archive",
-  description:
-    "A collection of wanderings, questions, studies, paintings, fragments, and other unfinished attempts at understanding this strange life.",
+  description: "A collection of wanderings, questions, studies, paintings, fragments, and unfinished attempts at understanding this strange life.",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital@0;1&display=swap"
-          rel="stylesheet"
-        />
-      </head>
       <body>
         <header className="topbar">
-          <a className="brand" href="/">The Errant Archive</a>
+          <Link href="/" className="brand">The Errant Archive</Link>
           <nav>
-            <a className="active" href="/">Home</a>
-            <a href="/#rooms">Rooms</a>
-            <a href="/#house-rules">House Rules</a>
-            <a href="/#rooms">Archive</a>
-            <span className="moon" aria-hidden="true">☾</span>
+            <Link href="/#rooms">Rooms</Link>
+            <Link href="/long-table">Long Table</Link>
+            <Link href="/#house-rules">House Rules</Link>
+            <span className="moon">☾</span>
           </nav>
         </header>
+
         {children}
+
         <footer className="footer">
-          <p>Contact: theerrantarchive@gmail.com</p>
+          The Errant Archive. Nothing here is finished.
         </footer>
       </body>
     </html>
