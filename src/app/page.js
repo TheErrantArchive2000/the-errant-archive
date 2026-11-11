@@ -156,9 +156,10 @@ export default function Home() {
       <section className={styles.hero}>
         <div className={styles.heroText}>
           <h1>The Errant<br />Archive</h1>
-          <p className={styles.intro}>
-            A collection of wanderings, questions, studies, paintings, fragments, and other unfinished attempts at understanding this strange life.
-          </p>
+         <p className={styles.intro}>
+  It is not for us to lay claim to the path, but only to remain true to how it is trod. The collections and works housed here are born from an unending wandering, a steady reckoning of thoughts, ideas, and fleeting inspirations of an ever-evolving, metanoiac self. I hold no illusion of mastery, but am in the pursuit of the worthiness of the deed itself.
+</p>
+
           <p className={styles.tagline}>Pull up a chair. Nothing here is finished.</p>
         </div>
 
