@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getRoom } from "@/lib/rooms";
+import { getRoom } from "../../../../lib/rooms";
 
 const pageStyle = {
   minHeight: "100vh",
