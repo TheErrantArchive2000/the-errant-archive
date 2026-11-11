@@ -1,435 +1,48 @@
-/* app/globals.css */
-
-/* ---------- Palette ---------- */
 :root {
-  --umber-deep: #1a130e;
-  --umber: #2b2019;
-  --umber-soft: #3d2d22;
-  --parchment: #efe3c8;
-  --parchment-dim: #c9b893;
-  --candle-amber: #d9913a;
-  --candle-glow: rgba(217, 145, 58, 0.18);
-  --olive-muted: #5d6144;
-  --dust: #8c7a63;
-
-  /* Font roles (variables are set in app/layout.js) */
-  --font-heading: var(--font-special-elite), "Courier New", monospace;
-  --font-body: var(--font-courier-prime), "Courier New", monospace;
-  --font-label: var(--font-plex-mono), "Courier New", monospace;
-  --font-margin: var(--font-caveat), cursive;
-
-  --measure: 65ch;
+  --bg: #0d0c0b;
+  --ink: #e8e0d2;
+  --muted: #9a9184;
+  --line: #3a342d;
+  --font: "Courier Prime", "Courier New", monospace;
 }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font); line-height: 1.7; }
+a { color: var(--ink); }
+main { max-width: 760px; margin: 0 auto; padding: 24px 18px 80px; }
 
-/* ---------- Base ---------- */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
+.site-nav { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; padding: 16px 18px; border-bottom: 1px solid var(--line); }
+.site-nav nav { display: flex; gap: 16px; }
+.site-footer { text-align: center; color: var(--muted); padding: 24px; border-top: 1px solid var(--line); font-style: italic; }
 
-html,
-body {
-  margin: 0;
-  padding: 0;
-  max-width: 100%;
-  overflow-x: hidden;
-}
+/* Home */
+.hero { padding: 40px 0 24px; }
+.hero h1 { font-size: 2.2rem; margin: 0 0 12px; }
+.tagline { color: var(--muted); font-style: italic; }
+.bio { border-left: 2px solid var(--line); padding-left: 16px; color: var(--muted); }
+.room-grid { display: grid; grid-template-columns: 1fr; gap: 14px; margin-top: 24px; }
+.room-card { display: block; padding: 16px; border: 1px solid var(--line); border-left: 4px solid var(--accent); text-decoration: none; }
+.room-card small { color: var(--muted); display: block; }
+.room-card.coming { opacity: 0.6; }
+@media (min-width: 640px) { .room-grid { grid-template-columns: 1fr 1fr; } }
 
-body {
-  background: var(--umber-deep);
-  color: var(--parchment);
-  font-family: var(--font-body);
-  font-size: 1.0625rem;
-  line-height: 1.7;
-  min-height: 100vh;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-}
+/* Room scene: CSS 3D perspective with flat painted layers */
+.scene { position: relative; perspective: 900px; margin: 16px 0 28px; height: 180px; overflow: hidden; border: 1px solid var(--line); }
+.scene .wall-back { position: absolute; inset: 0; background: linear-gradient(var(--wall), #000 90%); transform: rotateY(-8deg) scale(1.05); }
+.scene .floor { position: absolute; left: 0; right: 0; bottom: 0; height: 36%; background: linear-gradient(#000, #1a1714); transform: rotateX(60deg); transform-origin: bottom; }
+.scene .lamp { position: absolute; top: 18px; right: 22%; width: 60px; height: 60px; border-radius: 50%; background: radial-gradient(var(--accent), transparent 70%); opacity: 0.55; }
+.scene .brush { position: absolute; inset: 0; background: repeating-linear-gradient(115deg, transparent 0 14px, rgba(255,255,255,0.03) 14px 15px); }
 
-img,
-svg,
-video,
-canvas {
-  display: block;
-  max-width: 100%;
-  height: auto;
-}
+/* Door-opening transition (abstract brush panel) */
+.door { position: fixed; inset: 0; z-index: 10; background: linear-gradient(100deg, #0d0c0b 0%, #201a14 55%, #0d0c0b 100%); transform-origin: left center; animation: doorOpen 1.6s ease-in-out forwards; pointer-events: none; }
+@keyframes doorOpen { 0% { transform: perspective(900px) rotateY(0deg); } 100% { transform: perspective(900px) rotateY(-100deg); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .door { display: none; } }
 
-a {
-  color: var(--candle-amber);
-  text-underline-offset: 0.2em;
-}
-
-a:hover,
-a:focus-visible {
-  color: var(--parchment);
-}
-
-:focus-visible {
-  outline: 2px solid var(--candle-amber);
-  outline-offset: 3px;
-}
-
-p {
-  max-width: var(--measure);
-}
-
-/* ---------- Typography ---------- */
-h1,
-h2,
-h3 {
-  font-family: var(--font-heading);
-  color: var(--parchment);
-  font-weight: normal;
-  line-height: 1.2;
-  overflow-wrap: anywhere;
-}
-
-h1 {
-  font-size: clamp(1.9rem, 6vw, 3rem);
-  letter-spacing: 0.02em;
-}
-
-h2 {
-  font-size: clamp(1.4rem, 4.5vw, 2rem);
-}
-
-h3 {
-  font-size: clamp(1.15rem, 3.5vw, 1.4rem);
-}
-
-.label {
-  font-family: var(--font-label);
-  font-size: 0.8rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--dust);
-  overflow-wrap: anywhere;
-}
-
-.margin-note {
-  font-family: var(--font-margin);
-  font-size: 1.25rem;
-  color: var(--candle-amber);
-  line-height: 1.4;
-  transform: rotate(-1.5deg);
-}
-
-.rule {
-  border: 0;
-  border-top: 1px solid var(--olive-muted);
-  margin: 2.5rem 0;
-  width: 100%;
-}
-
-/* ---------- Layout ---------- */
-.page {
-  width: 100%;
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 1.25rem 1rem 4rem;
-}
-
-.section {
-  margin-block: 2.5rem;
-}
-
-/* ---------- Candle Hall ---------- */
-.hall {
-  position: relative;
-  min-height: 100vh;
-  min-height: 100svh;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 2rem 1rem;
-  background-color: var(--umber);
-  background-image: url("/images/study.jpg");
-  background-size: cover;
-  background-position: center;
-  animation: study-fade-in 1.8s ease-out both;
-}
-
-.hall__entrance {
-  font-family: var(--font-heading);
-  font-size: clamp(1.4rem, 5vw, 2.2rem);
-  color: var(--parchment);
-  max-width: 22ch;
-  margin-inline: auto;
-}
-
-.hall__intro {
-  margin-inline: auto;
-  color: var(--parchment-dim);
-}
-
-/* Candle flicker: soft amber glow that pulses unevenly */
-.candle-glow {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(
-    ellipse at 50% 40%,
-    var(--candle-glow),
-    transparent 60%
-  );
-  animation: candle-flicker 4.2s infinite steps(12, end);
-  mix-blend-mode: screen;
-}
-
-/* Drifting river fog: two layers moving at different speeds */
-.fog {
-  position: absolute;
-  inset: -20% -10%;
-  pointer-events: none;
-  background:
-    radial-gradient(ellipse at 20% 80%, rgba(239, 227, 200, 0.12), transparent 55%),
-    radial-gradient(ellipse at 80% 70%, rgba(239, 227, 200, 0.09), transparent 60%);
-  animation: fog-drift 38s ease-in-out infinite alternate;
-  opacity: 0.7;
-}
-
-.fog--slow {
-  animation-duration: 56s;
-  opacity: 0.45;
-}
-
-/* ---------- Doors (room links) ---------- */
-.doors {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1.25rem;
-  width: 100%;
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 0 1rem 4rem;
-}
-
-.door {
-  display: block;
-  text-decoration: none;
-  color: var(--parchment);
-  background: var(--umber-soft);
-  border: 1px solid var(--olive-muted);
-  padding: 1.25rem;
-  transition: border-color 0.6s ease, background-color 0.6s ease;
-}
-
-.door:hover,
-.door:focus-visible {
-  border-color: var(--candle-amber);
-  background: var(--umber);
-}
-
-.door__name {
-  font-family: var(--font-heading);
-  font-size: 1.2rem;
-  margin: 0 0 0.4rem;
-}
-
-.door__note {
-  font-size: 0.95rem;
-  color: var(--parchment-dim);
-  margin: 0;
-}
-
-/* ---------- Entry markers (use the same markers on every room) ---------- */
-
-/* Abandoned: struck through, with a text label so colour is not the only cue */
-.struck {
-  text-decoration: line-through;
-  text-decoration-thickness: 2px;
-  text-decoration-color: var(--candle-amber);
-  color: var(--dust);
-}
-
-.marker-abandoned::after {
-  content: " [abandoned]";
-  font-family: var(--font-label);
-  font-size: 0.75rem;
-  letter-spacing: 0.06em;
-  color: var(--dust);
-  text-decoration: none;
-}
-
-/* Unfinished tag */
-.tag-unfinished {
-  display: inline-block;
-  font-family: var(--font-label);
-  font-size: 0.75rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--umber-deep);
-  background: var(--parchment-dim);
-  padding: 0.15rem 0.5rem;
-  margin-inline-end: 0.5rem;
-  vertical-align: middle;
-}
-
-.tag-unfinished::before {
-  content: "\2026 ";
-}
-
-/* Photograph coming: dashed placeholder frame */
-.placeholder-frame {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  border: 1px dashed var(--olive-muted);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 1rem;
-  text-align: center;
-  color: var(--dust);
-  background: rgba(43, 32, 25, 0.5);
-}
-
-.placeholder-frame__caption {
-  font-family: var(--font-label);
-  font-size: 0.8rem;
-  letter-spacing: 0.06em;
-  overflow-wrap: anywhere;
-}
-
-/* ---------- Media ---------- */
-.media-frame {
-  width: 100%;
-  max-width: 100%;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
-  border: 1px solid var(--olive-muted);
-}
-
-.media-frame--portrait {
-  aspect-ratio: 3 / 4;
-}
-
-/* ---------- Key panel ---------- */
-.key {
-  border: 1px solid var(--olive-muted);
-  padding: 1rem 1.25rem;
-  background: rgba(26, 19, 14, 0.7);
-  max-width: var(--measure);
-  margin-inline: auto;
-  text-align: left;
-}
-
-.key__row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  align-items: baseline;
-  margin: 0.5rem 0;
-}
-
-/* ---------- Typewriter text ---------- */
-.typewriter {
-  display: inline-block;
-  overflow: hidden;
-  white-space: normal;
-  border-right: 2px solid var(--candle-amber);
-  animation: typing 3.5s steps(60, end) both, caret 0.9s step-end infinite;
-}
-
-/* ---------- Buttons and reactions ---------- */
-.button,
-button {
-  font-family: var(--font-label);
-  font-size: 0.85rem;
-  letter-spacing: 0.06em;
-  color: var(--parchment);
-  background: transparent;
-  border: 1px solid var(--olive-muted);
-  padding: 0.5rem 0.9rem;
-  cursor: pointer;
-  transition: border-color 0.5s ease, color 0.5s ease;
-}
-
-.button:hover,
-button:hover {
-  border-color: var(--candle-amber);
-  color: var(--candle-amber);
-}
-
-.reactions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-/* ---------- Motion switch ("Still the candles") ---------- */
-/* Added to <html> when the visitor turns motion off for this visit */
-html.still .candle-glow,
-html.still .fog,
-html.still .typewriter {
-  animation: none;
-}
-
-html.still .typewriter {
-  border-right-color: transparent;
-}
-
-/* ---------- Keyframes ---------- */
-@keyframes study-fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes candle-flicker {
-  0%, 100% { opacity: 0.85; }
-  18% { opacity: 0.7; }
-  35% { opacity: 0.95; }
-  52% { opacity: 0.75; }
-  70% { opacity: 1; }
-  86% { opacity: 0.8; }
-}
-
-@keyframes fog-drift {
-  from { transform: translate3d(-3%, 0, 0); }
-  to { transform: translate3d(3%, -2%, 0); }
-}
-
-@keyframes typing {
-  from { width: 0; }
-  to { width: 100%; }
-}
-
-@keyframes caret {
-  50% { border-right-color: transparent; }
-}
-
-/* ---------- Narrow screens (below about 600px) ---------- */
-@media (max-width: 600px) {
-  .doors {
-    grid-template-columns: 1fr;
-    padding-inline: 0.75rem;
-  }
-
-  .door {
-    width: 100%;
-  }
-
-  .page {
-    padding-inline: 0.75rem;
-  }
-}
-
-/* ---------- 360px check: no sideways scrolling, wrapping labels ---------- */
-@media (max-width: 360px) {
-  body {
-    font-size: 1rem;
-  }
-
-  .label,
-  .tag-unfinished,
-  .marker-abandoned::after {
-    white-space: normal;
-  }
-}
+/* Entries */
+.entry { position: relative; padding: 18px 0; border-bottom: 1px dashed var(--line); }
+.entry h2 { font-size: 1.15rem; margin: 0 0 6px; }
+.entry dl { margin: 10px 0 0; display: grid; grid-template-columns: max-content 1fr; gap: 4px 12px; color: var(--muted); font-size: 0.92rem; }
+.entry dt { text-transform: capitalize; }
+.entry dd { margin: 0; color: var(--ink); }
+.entry.abandoned h2 { text-decoration: line-through; color: var(--muted); }
+.tag { display: inline-block; font-size: 0.75rem; border: 1px solid var(--accent); color: var(--accent); padding: 0 6px; margin-left: 8px; vertical-align: middle; }
+.photo-frame { margin-top: 12px; height: 120px; border: 1px dashed var(--accent); display: flex; align-items: center; justify-content: center; color: var(--muted); font-style: italic; }
