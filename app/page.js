@@ -22,7 +22,7 @@ export default function Home() {
         {rooms.map((room) => (
           <Link
             key={room.slug}
-            href={`/rooms/${room.slug}`}
+            href={room.href}
             className={`room-card ${room.ready ? "" : "coming"}`}
             style={{ "--accent": room.accent }}
           >
