@@ -1,54 +1,37 @@
-"use client";
-
-import { useState } from "react";
-
-// Add rooms here as you build them. Each entry becomes a door on the home page.
-// Example: { href: "/study", name: "The Study", note: "A short line about the room." }
-const doors = [];
+import Link from "next/link";
+import { rooms } from "@/lib/rooms";
 
 export default function Home() {
-  const [still, setStill] = useState(false);
-
-  function toggleStill() {
-    const next = !still;
-    setStill(next);
-    try {
-      sessionStorage.setItem("still-candles", next ? "1" : "0");
-    } catch (e) {}
-    document.documentElement.classList.toggle("still", next);
-  }
-
   return (
-    <main>
-      <section className="hall">
-        <div className="fog" aria-hidden="true" />
-        <div className="fog fog--slow" aria-hidden="true" />
-        <div className="candle-glow" aria-hidden="true" />
-
-        <div style={{ position: "relative" }}>
-          <p className="label">Errant Archive Creations</p>
-          <h1 className="hall__entrance">Candle Hall</h1>
-          <p className="hall__intro margin-note">Choose a door to begin.</p>
-          <p>
-            <button type="button" onClick={toggleStill} aria-pressed={still}>
-              {still ? "Candles are still" : "Still the candles"}
-            </button>
-          </p>
-        </div>
+    <>
+      <section className="hero">
+        <h1>The Errant Archive</h1>
+        <p className="tagline">Nothing here is finished.</p>
+        <p className="bio">
+          Our calling is not to lay claim to the path, but rather to remain true to the way the path is trod.
+          The collections and works housed here are born from an unending wandering, a steady reckoning of
+          thoughts, ideas, and fleeting inspirations, reflecting my ever-evolving, metanoiac self. There is no
+          mastery but the worthiness of the act itself.
+        </p>
+        <p>
+          <Link href="/house-rules">House Rules</Link> · <a href="mailto:Itsurmyzone@gmail.com">Itsurmyzone@gmail.com</a>
+        </p>
       </section>
 
-      <section className="doors" aria-label="Rooms">
-        {doors.map((door) => (
-          <a key={door.href} href={door.href} className="door">
-            <span className="door__name" style={{ display: "block" }}>
-              {door.name}
-            </span>
-            <span className="door__note" style={{ display: "block" }}>
-              {door.note}
-            </span>
-          </a>
+      <section className="room-grid">
+        {rooms.map((room) => (
+          <Link
+            key={room.slug}
+            href={`/rooms/${room.slug}`}
+            className={`room-card ${room.ready ? "" : "coming"}`}
+            style={{ "--accent": room.accent }}
+          >
+            <strong>{room.name}</strong>
+            <small>{room.tone}</small>
+            {!room.ready && <small>Coming later</small>}
+          </Link>
         ))}
       </section>
-    </main>
+    </>
   );
 }
